@@ -32,6 +32,11 @@ def getAllAttraction():
     result = attraction.get_all_attraction()
     return result, 200
 
+@app.get('/attraction/visible')
+def getAllVisibleAttraction():
+    result = attraction.get_all_visible_attraction()
+    return result, 200
+
 @app.get('/attraction/<int:index>')
 def getAttraction(index):
     result = attraction.get_attraction(index)
@@ -67,3 +72,9 @@ def login():
 
     result = jsonify({"token": user.encode_auth_token(list(records[0])[0]), "name": json['name']})
     return result, 200
+
+
+@app.post('/comments')
+def add_comment():
+    json = request.get_json()
+    return jsonify({"message": "Comment added successfully"}), 200

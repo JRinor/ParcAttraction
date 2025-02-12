@@ -13,23 +13,24 @@ try:
     cur = conn.cursor()
     #code ici
 
-    with open('sql_file/init.sql') as f:
-        fichier = f.read()
-        lines = fichier.split(";")
-        for index, line in enumerate(lines):
-            line = line.replace("\n", "")
-            line = re.sub("\s+", " ", line)
-            if (line != ""):
-                texte = cur.execute(line)
+    def execute_sql_file(filename):
+        with open(filename) as f:
+            fichier = f.read()
+            lines = fichier.split(";")
+            for line in lines:
+                line = line.strip()
+                if line:
+                    try:
+                        cur.execute(line)
+                    except mariadb.Error as e:
+                        print(f"Error executing SQL: {e}")
+                        conn.rollback()
+                        conn.close()
+                        sys.exit(1)
 
-    with open('sql_file/create.sql') as f:
-        fichier = f.read()
-        lines = fichier.split(";")
-        for index, line in enumerate(lines):
-            line = line.replace("\n", "")
-            line = re.sub("\s+", " ", line)
-            if (line != ""):
-                texte = cur.execute(line)
+    execute_sql_file('sql_file/init.sql')
+    execute_sql_file('sql_file/create.sql')
+
     conn.commit()
     conn.close()
 

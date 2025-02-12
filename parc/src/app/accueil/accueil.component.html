@@ -15,6 +15,7 @@
         <span>{{attraction.nom}}</span>
         <span>{{attraction.description}}</span>
         <span>{{attraction.difficulte}} / 5</span>
+        <button mat-button (click)="navigateToComment(attraction.attraction_id!)">Commenter</button>
       </div>
     </ng-container>
   </mat-card-content>

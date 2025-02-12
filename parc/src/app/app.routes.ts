@@ -4,6 +4,7 @@ import { AdminComponent } from './admin/admin.component';
 import { AuthService } from './Service/auth.service';
 import { inject } from '@angular/core';
 import { AccueilComponent } from './accueil/accueil.component';
+import { CommentComponent } from './comment/comment.component';
 
 export const utilisateurEstConnecte = () => {
   const authService = inject(AuthService);
@@ -32,5 +33,11 @@ export const routes: Routes = [
       path: 'accueil',
       component: AccueilComponent,
     },
+    {
+      path: 'comment/:attractionId',
+      component: CommentComponent,
+      canActivate: [utilisateurEstConnecte]
+    },
     { path: '',   redirectTo: '/accueil', pathMatch: 'full' }, 
+    { path: '**', redirectTo: '/accueil' } // Add a wildcard route to catch unmatched routes
 ];
