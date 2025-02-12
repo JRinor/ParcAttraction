@@ -10,7 +10,7 @@ CORS(app)
 
 @app.route('/')
 def hello_world():
-    return 'Hello, Docker!'
+    return 'Hello, Docker!!'
 
 # Attraction
 @app.post('/attraction')
