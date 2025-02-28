@@ -3,7 +3,7 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from './Service/auth.service';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,7 @@ export class AppComponent {
   title = 'parc';
 
   constructor(public authService: AuthService, public router: Router) {
-    this.authService.setUser()
+    this.authService.setUser();
   }
 
   logout() {
@@ -24,4 +24,7 @@ export class AppComponent {
     this.router.navigate(["/login"]);
   }
 
+  navigateToComment(attractionId: number) {
+    this.router.navigate([`/comment/${attractionId}`]);
+  }
 }

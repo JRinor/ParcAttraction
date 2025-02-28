@@ -16,6 +16,12 @@
         <span>{{attraction.description}}</span>
         <span>{{attraction.difficulte}} / 5</span>
         <button mat-button (click)="navigateToComment(attraction.attraction_id!)">Commenter</button>
+        <button mat-button (click)="loadComments(attraction.attraction_id!)">Voir les commentaires</button>
+      </div>
+      <div *ngIf="comments[attraction.attraction_id!] | async as commentsList">
+        <div *ngFor="let comment of commentsList">
+          <p>{{comment.first_name}} {{comment.last_name}}: {{comment.content}} ({{comment.rating}}/5)</p>
+        </div>
       </div>
     </ng-container>
   </mat-card-content>

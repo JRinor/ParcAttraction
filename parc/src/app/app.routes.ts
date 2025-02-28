@@ -11,8 +11,8 @@ export const utilisateurEstConnecte = () => {
   const router = inject(Router);
   
   if (authService.isLoggedIn) {
-    //Appel pour vérifier token sinon pas bon on redirige vers connexion
-    //Mais pas urgent car on vérifie à chaque autre appel, il faut juste faire un appel spécifique pour ça
+    // Appel pour vérifier token sinon pas bon on redirige vers connexion
+    // Mais pas urgent car on vérifie à chaque autre appel, il faut juste faire un appel spécifique pour ça
     return true;
   }
 
@@ -38,6 +38,6 @@ export const routes: Routes = [
       component: CommentComponent,
       canActivate: [utilisateurEstConnecte]
     },
-    { path: '',   redirectTo: '/accueil', pathMatch: 'full' }, 
-    { path: '**', redirectTo: '/accueil' } // Add a wildcard route to catch unmatched routes
+    { path: '', redirectTo: '/accueil', pathMatch: 'full' }, 
+    { path: '**', redirectTo: '/accueil' }
 ];

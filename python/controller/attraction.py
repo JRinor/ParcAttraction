@@ -52,3 +52,12 @@ def delete_attraction(id):
     req.delete_from_db("DELETE FROM attraction WHERE attraction_id = ?", (id,))
 
     return True
+
+def add_comment(data):
+    if not data.get("content") or not data.get("rating") or not data.get("attraction_id"):
+        return False
+
+    requete = "INSERT INTO comment (content, rating, users_id, first_name, last_name, attraction_id) VALUES (?, ?, ?, ?, ?, ?);"
+    id = req.insert_in_db(requete, (data["content"], data["rating"], data.get("users_id"), data.get("first_name"), data.get("last_name"), data["attraction_id"]))
+
+    return id

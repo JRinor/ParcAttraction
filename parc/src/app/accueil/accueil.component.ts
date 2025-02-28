@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { AttractionService } from '../Service/attraction.service';
+import { CommentService } from '../Service/comment.service';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AttractionInterface } from '../Interface/attraction.interface';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
@@ -15,9 +16,14 @@ import { Router } from '@angular/router';
 })
 export class AccueilComponent {
 
-  constructor(public attractionService: AttractionService, private router: Router) {}
+  constructor(
+    public attractionService: AttractionService,
+    private commentService: CommentService,
+    private router: Router
+  ) {}
 
   public attractions: Observable<AttractionInterface[]> = this.attractionService.getAllVisibleAttraction();
+  public comments: { [key: number]: Observable<any[]> } = {};
 
   navigateToComment(attractionId: number) {
     console.log(`Navigating to comment page for attraction ID: ${attractionId}`);
@@ -28,5 +34,11 @@ export class AccueilComponent {
         console.log('Navigation failed');
       }
     });
+  }
+
+  loadComments(attractionId: number) {
+    if (attractionId != null) {
+      this.comments[attractionId] = this.commentService.getComments(attractionId);
+    }
   }
 }

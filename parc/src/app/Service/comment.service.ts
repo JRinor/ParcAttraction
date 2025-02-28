@@ -14,4 +14,8 @@ export class CommentService {
     const data = { ...commentData, first_name, last_name };
     return this.http.post(this.apiUrl, data);
   }
+
+  getComments(attractionId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/attraction/${attractionId}`);
+  }
 }

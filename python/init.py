@@ -11,7 +11,6 @@ try:
         database="parc"
     )
     cur = conn.cursor()
-    #code ici
 
     def execute_sql_file(filename):
         with open(filename) as f:

@@ -1,0 +1,10 @@
+POST http://127.0.0.1:5000/comments
+Content-Type: application/json
+
+{
+  "content": "This is a test comment",
+  "rating": 5,
+  "first_name": "John",
+  "last_name": "Doe",
+  "attraction_id": 1
+}
