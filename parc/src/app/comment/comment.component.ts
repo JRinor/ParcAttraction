@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-comment',
@@ -21,14 +22,19 @@ export class CommentComponent {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private commentService: CommentService
+    private commentService: CommentService,
+    private snackBar: MatSnackBar
   ) {
-    this.attractionId = +this.route.snapshot.paramMap.get('attractionId')!;
+    this.attractionId = Number(this.route.snapshot.paramMap.get('attractionId'));
+    if (isNaN(this.attractionId)) {
+      throw new Error('Invalid attraction ID');
+    }
+    
     this.commentForm = this.fb.group({
-      content: ['', Validators.required],
+      content: ['', [Validators.required, Validators.minLength(10)]],
       rating: [null, [Validators.required, Validators.min(1), Validators.max(5)]],
-      first_name: [''],
-      last_name: ['']
+      first_name: ['', [Validators.required, Validators.minLength(2)]],
+      last_name: ['', [Validators.required, Validators.minLength(2)]]
     });
   }
 
@@ -38,15 +44,31 @@ export class CommentComponent {
         ...this.commentForm.value,
         attraction_id: this.attractionId
       };
-      console.log('Submitting comment:', commentData);
-      this.commentService.addComment(commentData).subscribe(response => {
-        console.log('Comment submitted successfully:', response);
-        // Handle response
-      }, error => {
-        console.log('Error submitting comment:', error);
+      
+      this.commentService.addComment(commentData).subscribe({
+        next: (response) => {
+          this.snackBar.open('Commentaire ajouté avec succès!', 'Fermer', {
+            duration: 3000
+          });
+          this.commentForm.reset();
+        },
+        error: (error) => {
+          this.snackBar.open('Erreur lors de l\'ajout du commentaire', 'Fermer', {
+            duration: 3000
+          });
+          console.error('Error submitting comment:', error);
+        }
       });
-    } else {
-      console.log('Comment form is invalid');
     }
+  }
+
+  getErrorMessage(controlName: string): string {
+    const control = this.commentForm.get(controlName);
+    if (control?.errors) {
+      if (control.errors['required']) return 'Ce champ est requis';
+      if (control.errors['minlength']) return 'Texte trop court';
+      if (control.errors['min'] || control.errors['max']) return 'La note doit être entre 1 et 5';
+    }
+    return '';
   }
 }

@@ -20,6 +20,9 @@
           <mat-form-field class="champ" appearance="fill">
             <mat-label>Nom</mat-label>
             <input matInput formControlName="nom">
+            <mat-error *ngIf="formulaireAttraction.get('nom')?.hasError('required')">
+              Le nom est requis
+            </mat-error>
           </mat-form-field>
       
           <mat-form-field class="champ" appearance="fill">
@@ -29,7 +32,13 @@
   
           <mat-form-field class="champ" appearance="fill">
             <mat-label>Difficulté / 5</mat-label>
-            <input matInput formControlName="difficulte" type="number">
+            <input matInput formControlName="difficulte" type="number" min="0" max="5">
+            <mat-error *ngIf="formulaireAttraction.get('difficulte')?.hasError('required')">
+              La difficulté est requise
+            </mat-error>
+            <mat-error *ngIf="formulaireAttraction.get('difficulte')?.hasError('min') || formulaireAttraction.get('difficulte')?.hasError('max')">
+              La difficulté doit être entre 0 et 5
+            </mat-error>
           </mat-form-field>
 
           <mat-slide-toggle class="champ" formControlName="visible">Element visible</mat-slide-toggle>

@@ -7,12 +7,32 @@
       <mat-form-field appearance="fill">
         <mat-label>Nom</mat-label>
         <input matInput formControlName="name">
+        <mat-error *ngIf="form.get('name')?.hasError('required')">
+          Le nom est requis
+        </mat-error>
+        <mat-error *ngIf="form.get('name')?.hasError('minlength')">
+          Le nom doit contenir au moins 3 caractères
+        </mat-error>
       </mat-form-field>
+      
       <mat-form-field appearance="fill">
         <mat-label>Mot de passe</mat-label>
-        <input matInput formControlName="password">
+        <input matInput type="password" formControlName="password">
+        <mat-error *ngIf="form.get('password')?.hasError('required')">
+          Le mot de passe est requis
+        </mat-error>
+        <mat-error *ngIf="form.get('password')?.hasError('minlength')">
+          Le mot de passe doit contenir au moins 6 caractères
+        </mat-error>
       </mat-form-field>
-      <button mat-stroked-button type="submit">Connexion</button>
+
+      <div *ngIf="loginError" class="error-message">
+        {{ loginError }}
+      </div>
+
+      <button mat-stroked-button type="submit" [disabled]="isLoading">
+        {{ isLoading ? 'Connexion en cours...' : 'Connexion' }}
+      </button>
     </form>
   </mat-card-content>
 </mat-card>

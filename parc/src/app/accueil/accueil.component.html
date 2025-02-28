@@ -1,6 +1,6 @@
-<mat-card>
+<mat-card aria-label="Liste des attractions">
   <mat-card-header>
-    <mat-card-title>Bienvenue sur le site internet du parc d'attraction</mat-card-title>
+    <mat-card-title role="heading" aria-level="1">Bienvenue sur le site internet du parc d'attraction</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="attraction-title">
@@ -11,11 +11,11 @@
       </div>
     </div>
     <ng-container *ngFor="let attraction of attractions | async;">
-      <div class="attraction">
+      <div class="attraction" [attr.aria-label]="'Attraction ' + attraction.nom">
         <span>{{attraction.nom}}</span>
         <span>{{attraction.description}}</span>
         <span>{{attraction.difficulte}} / 5</span>
-        <button mat-button (click)="navigateToComment(attraction.attraction_id!)">Commenter</button>
+        <button mat-raised-button color="primary" (click)="navigateToComment(attraction.attraction_id!)">Commenter</button>
         <button mat-button (click)="loadComments(attraction.attraction_id!)">Voir les commentaires</button>
       </div>
       <div *ngIf="comments[attraction.attraction_id!] | async as commentsList">

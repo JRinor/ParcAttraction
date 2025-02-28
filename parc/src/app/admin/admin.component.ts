@@ -10,11 +10,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSlideToggleModule, MatButtonModule, MatCardModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSlideToggleModule, MatButtonModule, MatCardModule, MatSnackBarModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
@@ -55,7 +56,7 @@ export class AdminComponent {
         attraction_id: new FormControl(),
         nom: new FormControl("", [Validators.required]),
         description: new FormControl("", [Validators.required]),
-        difficulte: new FormControl(),
+        difficulte: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(5)]),
         visible: new FormControl(true)
       })
     );
